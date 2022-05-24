@@ -19,12 +19,25 @@ const FormularioRestaurante = () => {
 
     const aoSubmeterForm = (evento: React.FormEvent<HTMLFormElement>) => {
         evento.preventDefault();
-        axios.post('http://0.0.0.0:8000/api/v2/restaurantes/', {
-            nome: nomeRestaurante
-        })
-            .then(() => {
-                alert('Restaurante '+nomeRestaurante+' cadastrado com sucesso!')
-            });
+        if (parametros.id) {
+
+            axios.put(`http://0.0.0.0:8000/api/v2/restaurantes/${parametros.id}/`, {
+                nome: nomeRestaurante
+            })
+                .then(() => {
+                    alert('Restaurante '+nomeRestaurante+' editado com sucesso!')
+                });
+
+        } else {
+
+            axios.post('http://0.0.0.0:8000/api/v2/restaurantes/', {
+                nome: nomeRestaurante
+            })
+                .then(() => {
+                    alert('Restaurante '+nomeRestaurante+' cadastrado com sucesso!')
+                });
+
+        }
     }
 
     return (
