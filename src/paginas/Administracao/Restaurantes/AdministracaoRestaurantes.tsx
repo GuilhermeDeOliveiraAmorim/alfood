@@ -1,4 +1,5 @@
 import {
+    Button,
     Paper,
     Table,
     TableBody,
@@ -21,6 +22,14 @@ const AdministracaoRestaurantes = () => {
         .then(resposta => setRestaurantes(resposta.data))
     }, []);
 
+    const excluir = (restauranteASerExcluido: IRestaurante) => {
+        axios.delete(`http://0.0.0.0:8000/api/v2/restaurantes/${restauranteASerExcluido.id}/`)
+            .then(() => {
+                const listaRestaurante = restaurantes.filter(restaurante => restaurante.id !== restauranteASerExcluido.id)
+                setRestaurantes(listaRestaurante)
+            })
+    }
+
     return (
         <TableContainer component={Paper}>
             <Table>
@@ -28,6 +37,7 @@ const AdministracaoRestaurantes = () => {
                     <TableRow>
                         <TableCell>Nome</TableCell>
                         <TableCell>Editar</TableCell>
+                        <TableCell>Excluir</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -36,6 +46,11 @@ const AdministracaoRestaurantes = () => {
                             <TableCell>{restaurante.nome}</TableCell>
                             <TableCell>
                                 [<Link to={`/admin/restaurantes/${restaurante.id}`} >editar</Link>]
+                            </TableCell>
+                            <TableCell>
+                                <Button variant="outlined" color="error" onClick={() => excluir(restaurante)}>
+                                    Excluir
+                                </Button>
                             </TableCell>
                         </TableRow>
                     )}
