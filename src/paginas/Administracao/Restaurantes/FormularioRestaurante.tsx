@@ -1,20 +1,18 @@
 import { Button, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import IRestaurante from "../../../interfaces/IRestaurante";
+import http from "../Http";
 
 const FormularioRestaurante = () => {
     const parametros = useParams();
 
     useEffect(() => {
         if (parametros.id) {
-            axios
-                .get<IRestaurante>(
-                    `http://0.0.0.0:8000/api/v2/restaurantes/${parametros.id}/`
-                )
-                .then((resposta) => setNomeRestaurante(resposta.data.nome));
+            http.get<IRestaurante>(`restaurantes/${parametros.id}/`).then(
+                (resposta) => setNomeRestaurante(resposta.data.nome)
+            );
         }
     }, [parametros]);
 
@@ -23,32 +21,23 @@ const FormularioRestaurante = () => {
     const aoSubmeterForm = (evento: React.FormEvent<HTMLFormElement>) => {
         evento.preventDefault();
         if (parametros.id) {
-            axios
-                .put(
-                    `http://0.0.0.0:8000/api/v2/restaurantes/${parametros.id}/`,
-                    {
-                        nome: nomeRestaurante,
-                    }
-                )
-                .then(() => {
-                    alert(
-                        "Restaurante " +
-                            nomeRestaurante +
-                            " editado com sucesso!"
-                    );
-                });
+            http.put(`restaurantes/${parametros.id}/`, {
+                nome: nomeRestaurante,
+            }).then(() => {
+                alert(
+                    "Restaurante " + nomeRestaurante + " editado com sucesso!"
+                );
+            });
         } else {
-            axios
-                .post("http://0.0.0.0:8000/api/v2/restaurantes/", {
-                    nome: nomeRestaurante,
-                })
-                .then(() => {
-                    alert(
-                        "Restaurante " +
-                            nomeRestaurante +
-                            " cadastrado com sucesso!"
-                    );
-                });
+            http.post("restaurantes/", {
+                nome: nomeRestaurante,
+            }).then(() => {
+                alert(
+                    "Restaurante " +
+                        nomeRestaurante +
+                        " cadastrado com sucesso!"
+                );
+            });
         }
     };
 
