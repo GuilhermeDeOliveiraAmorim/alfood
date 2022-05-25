@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import IRestaurante from "../../../interfaces/IRestaurante";
 import http from "../Http";
+import { Link as LinkDom } from 'react-router-dom';
 
 const FormularioRestaurante = () => {
     const parametros = useParams();
@@ -57,12 +58,12 @@ const FormularioRestaurante = () => {
                     <Toolbar>
                         <Typography variant="h6">Admnistração</Typography>
                         <Box sx={{ display: "flex", flexGrow: 1 }}>
-                            <Link>
+                            <Link component={LinkDom} to="/admin/restaurantes">
                                 <Button sx={{ my: 2, color: "white" }}>
                                     Restaurantes
                                 </Button>
                             </Link>
-                            <Link>
+                            <Link component={LinkDom} to="/admin/restaurantes/novo">
                                 <Button sx={{ my: 2, color: "white" }}>
                                     Novo Restaurante
                                 </Button>
