@@ -60,7 +60,7 @@ const AdministracaoPratos = () => {
                                 <Link
                                     to={`/admin/pratos/${prato.id}`}
                                 >
-                                    editar
+                                    Edit
                                 </Link>
                                 ]
                             </TableCell>
