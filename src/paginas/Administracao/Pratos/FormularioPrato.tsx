@@ -82,7 +82,7 @@ const FormularioPrato = () => {
                         </Select>
                     </FormControl>
                     <Button type="submit" variant="outlined" fullWidth>
-                        Salvar
+                        Add
                     </Button>
                 </Box>
             </Box>
