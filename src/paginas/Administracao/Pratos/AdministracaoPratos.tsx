@@ -70,7 +70,7 @@ const AdministracaoPratos = () => {
                                     color="error"
                                     onClick={() => excluir(prato)}
                                 >
-                                    Excluir
+                                    Delete
                                 </Button>
                             </TableCell>
                         </TableRow>
