@@ -59,8 +59,6 @@ const FormularioPrato = () => {
             formData.append('imagem', imagem);
         }
 
-        console.log(formData)
-
         http.request({
             url: 'pratos/',
             method: 'POST',
@@ -69,7 +67,13 @@ const FormularioPrato = () => {
             },
             data: formData
         })
-        .then(() => alert('Prato feito!'))
+        .then(() => {
+            setNomePrato('')
+            setDescricaoPrato('')
+            setTag('')
+            setRestaurante('')
+            alert('Prato feito!')
+        })
         .catch(erro => console.log(erro))
     }
 
