@@ -60,7 +60,7 @@ const AdministracaoPratos = () => {
                                 <Link
                                     to={`/admin/pratos/${prato.id}`}
                                 >
-                                    Edit
+                                    Editar
                                 </Link>
                                 ]
                             </TableCell>
@@ -70,7 +70,7 @@ const AdministracaoPratos = () => {
                                     color="error"
                                     onClick={() => excluir(prato)}
                                 >
-                                    Delete
+                                    Excluir
                                 </Button>
                             </TableCell>
                         </TableRow>
