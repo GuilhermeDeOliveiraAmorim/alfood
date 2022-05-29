@@ -32,6 +32,8 @@ const FormularioPrato = () => {
     const [restaurantes, setRestaurantes] = useState<IRestaurante[]>([]);
     const [restaurante, setRestaurante] = useState('');
 
+    const [imagem, setImagem] = useState<File | null>(null);
+
     useEffect(() => {
         http.get<{tags: ITag[]}>('tags/')
             .then(resposta => setTags(resposta.data.tags))
@@ -42,6 +44,14 @@ const FormularioPrato = () => {
     const aoSubmeterForm = (evento: React.FormEvent<HTMLFormElement>) => {
         evento.preventDefault();
     };
+
+    const selecionarArquivo = (evento: React.ChangeEvent<HTMLInputElement>) => {
+        if (evento.target.files?.length) {
+            setImagem(evento.target.files[0]);
+        } else {
+            setImagem(null);
+        }
+    }
 
     return (
         <>
@@ -100,6 +110,8 @@ const FormularioPrato = () => {
                             </MenuItem>)}
                         </Select>
                     </FormControl>
+
+                    <input type="file" onChange={selecionarArquivo} />
 
                     <Button type="submit" variant="outlined" fullWidth>
                         Adicionar
