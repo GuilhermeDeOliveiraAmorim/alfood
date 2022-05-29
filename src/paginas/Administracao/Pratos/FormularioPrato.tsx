@@ -1,30 +1,22 @@
 import {
-    AppBar,
     Button,
-    Container,
     FormControl,
     InputLabel,
-    Link,
     MenuItem,
-    Paper,
     Select,
     TextField,
-    Toolbar,
     Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import IPrato from "../../../interfaces/IPrato";
 import http from "../Http";
-import { Link as LinkDom } from "react-router-dom";
 import ITag from "../../../interfaces/ITag";
 import IRestaurante from "../../../interfaces/IRestaurante";
 
 const FormularioPrato = () => {
 
     const [nomePrato, setNomePrato] = useState('');
-    const [descricaoPrato, setDescricaoPrato] = useState('');
+    const [descricao, setDescricaoPrato] = useState('');
 
     const [tags, setTags] = useState<ITag[]>([]);
     const [tag, setTag] = useState('');
@@ -41,16 +33,44 @@ const FormularioPrato = () => {
             .then(resposta => setRestaurantes(resposta.data))
     }, [])
 
-    const aoSubmeterForm = (evento: React.FormEvent<HTMLFormElement>) => {
-        evento.preventDefault();
-    };
-
     const selecionarArquivo = (evento: React.ChangeEvent<HTMLInputElement>) => {
         if (evento.target.files?.length) {
             setImagem(evento.target.files[0]);
         } else {
             setImagem(null);
         }
+    }
+    
+    const aoSubmeterForm = (evento: React.FormEvent<HTMLFormElement>) => {
+
+        evento.preventDefault();
+
+        const formData = new FormData();
+
+        formData.append('nome', nomePrato);
+
+        formData.append('descricao', descricao);
+
+        formData.append('tag', tag);
+
+        formData.append('restaurante', restaurante);
+
+        if (imagem) {
+            formData.append('imagem', imagem);
+        }
+
+        console.log(formData)
+
+        http.request({
+            url: 'pratos/',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            data: formData
+        })
+        .then(() => alert('Prato feito!'))
+        .catch(erro => console.log(erro))
     }
 
     return (
@@ -81,7 +101,7 @@ const FormularioPrato = () => {
                     />
 
                     <TextField
-                        value={descricaoPrato}
+                        value={descricao}
                         onChange={(evento) =>
                             setDescricaoPrato(evento.target.value)
                         }
@@ -96,7 +116,7 @@ const FormularioPrato = () => {
                     <FormControl margin="dense" fullWidth>
                         <InputLabel id="select-tag">Tag</InputLabel>
                         <Select labelId="select-tag" value={tag} onChange={evento => setTag(evento.target.value)}>
-                            {tags.map(tag => <MenuItem key={tag.id} value={tag.id}>
+                            {tags.map(tag => <MenuItem key={tag.id} value={tag.value}>
                                 {tag.value}
                             </MenuItem>)}
                         </Select>
